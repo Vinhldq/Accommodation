@@ -1,0 +1,150 @@
+<nav class="navbar">
+    <div class="navbar-left">
+        <a class="logo" routerLink="/">Booking.com</a>
+    </div>
+    <div class="navbar-right">
+        @if (isUserLoggedIn) {
+        <div
+            class="user-info"
+            tuiChevron
+            tuiDropdownOpen
+            [tuiDropdown]="content"
+        >
+            <tui-avatar class="avatar" src="@tui.user" alt="Avatar" />
+            <a class="user-name">{{ userName || "" }}</a>
+        </div>
+        } @else if (isManagerLoggedIn) {
+        <div
+            class="user-info"
+            tuiChevron
+            tuiDropdownOpen
+            [tuiDropdown]="content"
+        >
+            <tui-avatar class="avatar" src="@tui.user" alt="Avatar" />
+            <a class="user-name">{{ userName }}</a>
+        </div>
+        } @else if (isAdminLoggedIn) {
+        <div
+            class="user-info"
+            tuiChevron
+            tuiDropdownOpen
+            [tuiDropdown]="content"
+        >
+            <tui-avatar class="avatar" src="@tui.user" alt="Avatar" />
+            <a class="user-name">{{ userName || "Admin" }}</a>
+        </div>
+        } @else {
+        <button class="register" [routerLink]="['/register']">Register</button>
+        <button class="login" [routerLink]="['/login']">Login</button>
+        }
+    </div>
+</nav>
+
+<ng-template #content>
+    <tui-data-list role="menu">
+        @if (isUserLoggedIn) {
+        <!-- Menu cho User thông thường -->
+        @for (group of groups; track group.label) {
+        <tui-opt-group [label]="group.label">
+            @for (item of group.items; track item.label) {
+            <a
+                #rla="routerLinkActive"
+                role="menuitemradio"
+                routerLinkActive
+                tuiOption
+                [attr.aria-checked]="rla.isActive"
+                [routerLink]="item.routerLink"
+            >
+                <div class="menu-item-content">
+                    <tui-icon
+                        [icon]="item.icon || 'tuiIconHelp'"
+                        [style.color]="item.icon || 'inherit'"
+                        class="menu-item-icon"
+                    ></tui-icon>
+                    {{ item.label }}
+                </div>
+            </a>
+            }
+        </tui-opt-group>
+        }
+
+        <!-- Logout cho User -->
+        <a role="menuitem" tuiOption (click)="logout()">
+            <div class="menu-item-content">
+                <tui-icon icon="@tui.log-out" class="menu-item-icon"></tui-icon>
+                Logout
+            </div>
+        </a>
+        } @if (isManagerLoggedIn) {
+        <a
+            role="menuitem"
+            tuiOption
+            [routerLink]="['/manager/accommodation/stats']"
+        >
+            <div class="menu-item-content">
+                <tui-icon
+                    icon="@tui.chart-line"
+                    class="menu-item-icon"
+                ></tui-icon>
+                Your Stats
+            </div>
+        </a>
+        <a role="menuitem" tuiOption [routerLink]="['/manager/accommodation']">
+            <div class="menu-item-content">
+                <tui-icon icon="@tui.hotel" class="menu-item-icon"></tui-icon>
+                Your Accommodations
+            </div>
+        </a>
+        <a role="menuitem" tuiOption [routerLink]="['/manager/order']">
+            <div class="menu-item-content">
+                <tui-icon
+                    icon="@tui.house-plus"
+                    class="menu-item-icon"
+                ></tui-icon>
+                Your Orders
+            </div>
+        </a>
+        <a role="menuitem" tuiOption (click)="logout()">
+            <div class="menu-item-content">
+                <tui-icon icon="@tui.log-out" class="menu-item-icon"></tui-icon>
+                Logout
+            </div>
+        </a>
+        } @if (isAdminLoggedIn) {
+        <!-- Chỉ hiển thị logout cho Admin -->
+        <a role="menuitem" tuiOption [routerLink]="['/admin/facility']">
+            <div class="menu-item-content">
+                <tui-icon
+                    icon="@tui.layout-dashboard"
+                    class="menu-item-icon"
+                ></tui-icon>
+                Your Facilities
+            </div>
+        </a>
+        <a role="menuitem" tuiOption [routerLink]="['/admin/facility-detail']">
+            <div class="menu-item-content">
+                <tui-icon
+                    icon="@tui.layout-dashboard"
+                    class="menu-item-icon"
+                ></tui-icon>
+                Your Facility Details
+            </div>
+        </a>
+        <a role="menuitem" tuiOption [routerLink]="['/admin/manager']">
+            <div class="menu-item-content">
+                <tui-icon
+                    icon="@tui.circle-user-round"
+                    class="menu-item-icon"
+                ></tui-icon>
+                Manager Accounts
+            </div>
+        </a>
+        <a role="menuitem" tuiOption (click)="logout()">
+            <div class="menu-item-content">
+                <tui-icon icon="@tui.log-out" class="menu-item-icon"></tui-icon>
+                Logout
+            </div>
+        </a>
+        }
+    </tui-data-list>
+</ng-template>

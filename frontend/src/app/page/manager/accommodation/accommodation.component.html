@@ -1,0 +1,440 @@
+<p-toast></p-toast>
+<app-navbar></app-navbar>
+@if (isLoading) {
+<app-loader text="Loading..." [overlay]="true"></app-loader>
+}
+<main class="container">
+    <div #topList></div>
+
+    <button
+        size="l"
+        tuiButton
+        type="button"
+        (click)="openDialogCreate(createForm)"
+    >
+        New
+    </button>
+
+    <table tuiTable class="table" [columns]="columns" [style.width.%]="100">
+        <thead>
+            <tr tuiThGroup></tr>
+        </thead>
+        <tbody tuiTbody>
+            @for(accommodation of accommodations; track accommodation.id; let i
+            = $index) {
+            <tr tuiTr>
+                <td *tuiCell="'ID'" tuiTd>
+                    {{ i + 1 }}
+                </td>
+                <td *tuiCell="'Name'" tuiTd>
+                    {{ accommodation.name }}
+                </td>
+                <td *tuiCell="'Country'" tuiTd>
+                    {{ accommodation.country }}
+                </td>
+                <td *tuiCell="'City'" tuiTd>
+                    {{ changeCitySlugToName(accommodation.city) }}
+                </td>
+                <td *tuiCell="'District'" tuiTd>
+                    {{
+                        changeDistrictSlugToName(
+                            accommodation.city,
+                            accommodation.district
+                        )
+                    }}
+                </td>
+                <td *tuiCell="'Address'" tuiTd>
+                    {{ accommodation.address }}
+                </td>
+                <td *tuiCell="'Image'" tuiTd>
+                    <a
+                        class="button"
+                        target="_blank"
+                        [routerLink]="[
+                            '/manager/accommodation/',
+                            accommodation.id,
+                            'images'
+                        ]"
+                        >Quản lý hình ảnh</a
+                    >
+                </td>
+                <td *tuiCell="'Description'" tuiTd>
+                    <div
+                        #descEl
+                        [innerHTML]="getDescription(accommodation.description)"
+                        [attr.data-id]="accommodation.id"
+                        [class.collapsed]="!showFullMap[accommodation.id]"
+                    ></div>
+
+                    @if(showButtonStates[accommodation.id]) {
+                    <p
+                        (click)="toggleDescription(accommodation.id)"
+                        class="see-more-button"
+                    >
+                        {{
+                            isDescriptionShown(accommodation.id)
+                                ? "Thu gọn"
+                                : "Xem thêm"
+                        }}
+                    </p>
+                    }
+                </td>
+                <td *tuiCell="'Rating'" tuiTd>
+                    {{ accommodation.rating }}
+                </td>
+                <td class="text-nowrap" *tuiCell="'Google Map'" tuiTd>
+                    <iframe
+                        [src]="getSafeUrl(accommodation.google_map)"
+                        width="300"
+                        height="200"
+                        style="border: 0"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </td>
+                <td *tuiCell="'Is Verified'" tuiTd>
+                    {{ accommodation.is_verified }}
+                </td>
+                <td *tuiCell="'Is Deleted'" tuiTd>
+                    {{ accommodation.is_deleted }}
+                </td>
+                <td *tuiCell="'Action'" tuiTd>
+                    <span tuiStatus style="display: flex">
+                        <button
+                            appearance="primary"
+                            iconStart="@tui.pencil"
+                            size="xs"
+                            tuiIconButton
+                            type="button"
+                            [style.border-radius.%]="100"
+                            [style.background]="'white'"
+                            [style.color]="'blue'"
+                            (click)="
+                                openDialogUpdate(updateForm, accommodation)
+                            "
+                        >
+                            Edit
+                        </button>
+                        <button
+                            appearance="action"
+                            iconStart="@tui.trash"
+                            size="xs"
+                            tuiIconButton
+                            type="button"
+                            [style.border-radius.%]="100"
+                            [style.color]="'red'"
+                            (click)="deleteAccommodation(accommodation.id)"
+                        >
+                            Delete
+                        </button>
+                    </span>
+                </td>
+                <td *tuiCell="'Show Accommodation Detail'" tuiTd>
+                    <a
+                        class="button"
+                        target="_blank"
+                        [routerLink]="[
+                            '/manager/accommodation/',
+                            accommodation.id,
+                            'details'
+                        ]"
+                        >Show</a
+                    >
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination-container">
+        <tui-pagination [activePadding]="2" [index]="0" [length]="pagination.total_pages"
+            (indexChange)="onPageChange($event)" />
+    </div>
+
+    <ng-template #createForm>
+        <form
+            tuiCardLarge
+            [formGroup]="formAccommodation"
+            [style.max-width.rem]="32"
+            [style.padding.px]="5"
+            (ngSubmit)="createAccommodation()"
+        >
+            <tui-textfield>
+                <label tuiLabel>Name</label>
+                <input formControlName="name" placeholder="Name" tuiTextfield />
+                @if(formAccommodation.get('name')?.invalid &&
+                formAccommodation.get('name')?.touched) {
+                <div>
+                    <small class="text-red-500">Name is required</small>
+                </div>
+                }
+            </tui-textfield>
+            <tui-textfield>
+                <label tuiLabel>Country</label>
+                <input
+                    formControlName="country"
+                    placeholder="Country"
+                    [readOnly]="true"
+                    tuiTextfield
+                />
+                <tui-icon tuiTooltip="You can't change here" />
+            </tui-textfield>
+            <tui-textfield>
+                <label tuiLabel>City</label>
+                <input formControlName="city" tuiSelect />
+                <tui-data-list-wrapper
+                    *tuiTextfieldDropdown
+                    new
+                    [items]="cityNames"
+                />
+                @if(formAccommodation.get('city')?.invalid &&
+                formAccommodation.get('city')?.touched) {
+                <div>
+                    <small class="text-red-500">City is required</small>
+                </div>
+                }
+            </tui-textfield>
+            <tui-textfield>
+                <label tuiLabel>District</label>
+                <input formControlName="district" tuiSelect />
+                <tui-data-list-wrapper
+                    *tuiTextfieldDropdown
+                    new
+                    [items]="districtNames"
+                />
+                @if (formAccommodation.get('district')?.invalid &&
+                formAccommodation.get('district')?.touched) {
+                <div>
+                    <small class="text-red-500">District is required</small>
+                </div>
+                }
+            </tui-textfield>
+            <tui-textfield>
+                <label tuiLabel>Address</label>
+                <input
+                    formControlName="address"
+                    placeholder="Address"
+                    tuiTextfield
+                />
+                @if(formAccommodation.get('address')?.invalid &&
+                formAccommodation.get('address')?.touched) {
+                <div>
+                    <small class="text-red-500">Address is required</small>
+                </div>
+                }
+            </tui-textfield>
+            <tui-textfield>
+                <label tuiLabel>Google map</label>
+                <input
+                    formControlName="googleMap"
+                    placeholder="Google Map"
+                    tuiTextfield
+                />
+                @if(formAccommodation.get('googleMap')?.invalid &&
+                formAccommodation.get('googleMap')?.touched) {
+                <div>
+                    <small class="text-red-500">Google map is required</small>
+                </div>
+                }
+            </tui-textfield>
+            <label>
+                Rating
+                <tui-rating class="rating" formControlName="rating" />
+                @if(formAccommodation.get('rating')?.invalid &&
+                formAccommodation.get('rating')?.touched) {
+                <div>
+                    <small class="text-red-500">Rating is required</small>
+                </div>
+                }
+            </label>
+            <div>
+                <label tuiLabel>Description</label>
+                <tui-editor formControlName="description" [tools]="tools">
+                </tui-editor>
+                @if(formAccommodation.get('description')?.invalid &&
+                formAccommodation.get('description')?.touched) {
+                <div>
+                    <small class="text-red-500">Description is required</small>
+                </div>
+                }
+            </div>
+        </form>
+
+        <form [formGroup]="formFacilities" class="facilities-form">
+            <div class="facility-heading">
+                <label>Facility</label>
+            </div>
+            <div class="facilities-grid">
+                @for (facility of facilities; track facility.id) {
+                <div class="facility-item">
+                    <label tuiLabel class="facility-label">
+                        <input
+                            [formControlName]="facility.id"
+                            tuiCheckbox
+                            type="checkbox"
+                            class="facility-checkbox"
+                        />
+                        <img
+                            class="facility-image"
+                            [src]="
+                                'http://localhost:8080/uploads/' +
+                                facility.image
+                            "
+                        />
+                        <span class="facility-name">{{ facility.name }}</span>
+                    </label>
+                </div>
+                }
+            </div>
+        </form>
+
+        <button tuiButton type="button" (click)="createAccommodation()">
+            Submit
+        </button>
+    </ng-template>
+
+    <ng-template #updateForm>
+        <form
+            tuiCardLarge
+            [formGroup]="formAccommodation"
+            [style.max-width.rem]="32"
+            [style.padding.px]="5"
+            (ngSubmit)="updateAccommodation()"
+        >
+            <tui-textfield>
+                <label tuiLabel>Name</label>
+                <input formControlName="name" placeholder="Name" tuiTextfield />
+                @if(formAccommodation.get('name')?.invalid &&
+                formAccommodation.get('name')?.touched) {
+                <div>
+                    <small class="text-red-500">Name is required</small>
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>Country</label>
+                <input
+                    formControlName="country"
+                    placeholder="Country"
+                    tuiTextfield
+                    [readOnly]="true"
+                />
+                <tui-icon tuiTooltip="You can't change here" />
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>City</label>
+                <input formControlName="city" tuiSelect />
+                <tui-data-list-wrapper
+                    *tuiTextfieldDropdown
+                    new
+                    [items]="cityNames"
+                />
+                @if(formAccommodation.get('city')?.invalid &&
+                formAccommodation.get('city')?.touched) {
+                <div>
+                    <small class="text-red-500">City is required</small>
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>District</label>
+                <input formControlName="district" tuiSelect />
+                <tui-data-list-wrapper
+                    *tuiTextfieldDropdown
+                    new
+                    [items]="districtNames"
+                />
+
+                @if (formAccommodation.get('city')?.disabled ||
+                formAccommodation.get('city')?.invalid) {
+                <div>
+                    <small class="text-red-500">Please choose city first</small>
+                </div>
+                } @if (formAccommodation.get('district')?.invalid &&
+                formAccommodation.get('district')?.touched) {
+                <div>
+                    <small class="text-red-500">District is required</small>
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>Address</label>
+                <input
+                    formControlName="address"
+                    placeholder="Address"
+                    tuiTextfield
+                />
+                @if(formAccommodation.get('address')?.invalid &&
+                formAccommodation.get('address')?.touched) {
+                <div>
+                    <small class="text-red-500">Address is required</small>
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>Google map</label>
+                <input
+                    formControlName="googleMap"
+                    placeholder="Google Map"
+                    tuiTextfield
+                />
+                @if(formAccommodation.get('googleMap')?.invalid &&
+                formAccommodation.get('googleMap')?.touched) {
+                <div>
+                    <small class="text-red-500">Google map is required</small>
+                </div>
+                }
+            </tui-textfield>
+
+            <div>
+                <label tuiLabel>Description</label>
+                <tui-editor formControlName="description" [tools]="tools">
+                </tui-editor>
+                @if(formAccommodation.get('description')?.invalid &&
+                formAccommodation.get('description')?.touched) {
+                <div>
+                    <small class="text-red-500">Description is required</small>
+                </div>
+                }
+            </div>
+        </form>
+
+        <form [formGroup]="formFacilities" class="facilities-form">
+            <div class="facility-heading">
+                <label>Facility</label>
+            </div>
+            <div class="facilities-grid">
+                @for (facility of facilities; track facility.id) {
+                <div class="facility-item">
+                    <label tuiLabel class="facility-label">
+                        <input
+                            [formControlName]="facility.id"
+                            tuiCheckbox
+                            type="checkbox"
+                            class="facility-checkbox"
+                        />
+                        <img
+                            class="facility-image"
+                            [src]="
+                                'http://localhost:8080/uploads/' +
+                                facility.image
+                            "
+                        />
+                        <span class="facility-name">{{ facility.name }}</span>
+                    </label>
+                </div>
+                }
+            </div>
+        </form>
+
+        <button tuiButton type="button" (click)="updateAccommodation()">
+            Submit
+        </button>
+    </ng-template>
+</main>

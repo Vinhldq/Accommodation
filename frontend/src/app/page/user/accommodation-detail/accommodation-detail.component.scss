@@ -1,0 +1,1086 @@
+// Ctrl + K rồi nhấn Ctrl + 0 để thu gọn tất cả
+// Ctrl + K rồi nhấn Ctrl + J để mở rộng tất cả
+
+.main {
+    margin: 0 auto;
+    padding: 20px 14%;
+    font-size: 25px;
+    font-family: sans-serif;
+    overflow-x: hidden;
+
+    .accommodation-detail-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        .accommodation-detail-title {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            height: 40px;
+            align-items: center;
+
+            .share-icon {
+                cursor: pointer;
+                padding: 10px;
+                border-radius: 50%;
+                overflow: visible;
+                width: 40px;
+            }
+
+            .share-icon:hover {
+                background-color: rgba($color: gray, $alpha: 0.2);
+            }
+
+            .order-btn {
+                background-color: #006ce4;
+                color: white;
+                border: none;
+                border-radius: 10%;
+                height: 100%;
+                width: 100px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            .order-btn:hover {
+                background-color: #0364d2;
+            }
+        }
+    }
+
+    .accommodation-address-container {
+        display: flex;
+        align-items: end;
+        gap: 5px;
+        margin: 10px 0;
+
+        .location-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .accommodation-address {
+            margin: 0;
+            font-size: 15px;
+        }
+    }
+
+    .image-review-map-container {
+        display: flex;
+        height: 500px;
+
+        .accommodation-image-container {
+            width: 75%;
+            padding: 1% 0.5% 0 0;
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+
+            .accommodation-image {
+                .accommodation-image-item {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 2%;
+                    object-fit: fill;
+                    cursor: pointer;
+                }
+            }
+
+            .accommodation-image:nth-child(1) {
+                grid-area: 1 / 1 / 7 / 11;
+            }
+            .accommodation-image:nth-child(2) {
+                grid-area: 1 / 11 / 4 / 16;
+            }
+            .accommodation-image:nth-child(3) {
+                grid-area: 4 / 11 / 7 / 16;
+            }
+            .accommodation-image:nth-child(4) {
+                grid-area: 7 / 1 / 9 / 4;
+            }
+            .accommodation-image:nth-child(5) {
+                grid-area: 7 / 4 / 9 / 7;
+            }
+            .accommodation-image:nth-child(6) {
+                grid-area: 7 / 7 / 9 / 10;
+            }
+            .accommodation-image:nth-child(7) {
+                grid-area: 7 / 10 / 9 / 13;
+            }
+            .accommodation-image:nth-child(8) {
+                grid-area: 7 / 13 / 9 / 16;
+                position: relative;
+            }
+            // Tạo nội dung ảo đè lên accommodation-image:nth-child(8)
+            .accommodation-image:nth-child(8)::after {
+                content: "See More";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                text-align: center;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                pointer-events: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 2%;
+            }
+        }
+
+        .accommodation-review-map-container {
+            width: 25%;
+            padding: 1% 0 0 0.5%;
+
+            .accommodation-review-container {
+                height: 60%;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 2%;
+                overflow: hidden;
+
+                .rating-score {
+                    height: 30%;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: end;
+                    gap: 10px;
+                    padding: 15px;
+                    cursor: pointer;
+
+                    .total-score {
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: white;
+                        background-color: #003b95;
+                        padding: 10px;
+                        border-radius: 5px 5px 5px 0;
+                    }
+
+                    .text-container {
+                        .title-by-score {
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+
+                        .total-review {
+                            font-size: 12px;
+                            color: gray;
+                        }
+                    }
+                }
+
+                .comment {
+                    height: 70%;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+                    .user-like-title {
+                        font-size: 14px;
+                        margin: 10px;
+                    }
+
+                    .review-content-container {
+                        .review-item {
+                            display: flex;
+                            flex-direction: column-reverse;
+                            padding: 10px;
+                            height: auto;
+                            gap: 20px;
+
+                            .review-user-info {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                gap: 10px;
+
+                                .user-avatar {
+                                    width: 20px;
+                                    height: 20px;
+                                    border-radius: 50%;
+                                    object-fit: cover;
+                                }
+
+                                .user-name {
+                                    font-size: 14px;
+                                }
+                            }
+
+                            .review-content {
+                                .review-text {
+                                    font-size: 14px;
+                                    margin: 10px 0;
+                                    color: rgba(0, 0, 0, 0.7);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .accommodation-google-map-container {
+                position: relative;
+                height: 40%;
+                padding-top: 5%;
+                cursor: pointer;
+
+                .google-map {
+                    height: 94%;
+                    width: 100%;
+                    border-radius: 2%;
+                    border: 0;
+                }
+
+                .google-map-overlay {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 100%;
+                    align-items: center;
+
+                    .google-map-overlay-icon {
+                        height: 50px;
+                    }
+
+                    .google-map-overlay-button {
+                        background-color: #006ce4;
+                        color: white;
+                        border: none;
+                        border-radius: 10%;
+                        padding: 10px;
+                        width: 60%;
+                        font-size: 15px;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .description-facilities-container {
+        display: flex;
+        height: auto;
+        margin-top: 20px;
+
+        .accommodation-description-facilities-container {
+            width: 100%;
+
+            .description-container {
+                padding-right: 7%;
+
+                .description-title {
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                }
+
+                .description-content {
+                    font-size: 15px;
+                    color: rgba(0, 0, 0, 0.7);
+                    white-space: pre-line;
+                }
+            }
+
+            .open-street-map {
+                font-size: 12px;
+                margin: 10px 0 0 0;
+                color: gray;
+            }
+
+            .facilities-container {
+                .facilities-title {
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin: 20px 0;
+                }
+
+                .facilities-content {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 16px;
+
+                    .facility-item {
+                        display: flex;
+                        gap: 8px;
+
+                        .facility-icon {
+                            height: 20px;
+                            width: 20px;
+                        }
+
+                        .facility-name {
+                            font-size: 14px;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .availability-room-container {
+        margin-top: 20px;
+
+        .availability-room-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            border: none;
+        }
+
+        .availability-room-table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+
+            th {
+                border: 1px solid #5bbaff;
+                padding: 10px;
+                vertical-align: top;
+                background-color: #4c76b2;
+                color: white;
+                text-align: center;
+                height: 50px;
+                position: sticky;
+                top: 0;
+            }
+
+            td {
+                border: 1px solid #5bbaff;
+                padding: 10px;
+                vertical-align: top;
+            }
+
+            .room-type-container {
+                width: 30%;
+
+                .room-type-title {
+                    font-size: 16px;
+                    color: #006ce4;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    margin: 0 0 10px 0;
+                }
+
+                .room-title:hover {
+                    color: #923e01;
+                }
+
+                .beds-container {
+                    display: flex;
+                    flex-direction: column;
+
+                    .bed-item {
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+
+                        .full-bed-icon-container {
+                            width: 30px;
+                            height: 15px;
+                            position: relative;
+                        }
+
+                        .single-bed-icon-container {
+                            width: 15px;
+                            height: 15px;
+                            position: relative;
+                        }
+
+                        .bed-icon {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover; /* hoặc contain tùy mục đích */
+                            display: block; /* bỏ khoảng trắng mặc định của inline img */
+                        }
+                    }
+                }
+
+                .some-room-facilities-container {
+                    margin: 10px 0;
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+                    padding-bottom: 10px;
+
+                    .room-size-container {
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+
+                        .room-size-icon {
+                            width: 16px;
+                            height: 12px;
+                        }
+
+                        .room-size {
+                            font-size: 12px;
+                        }
+                    }
+
+                    .facilities-with-icon {
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+
+                        .facility-icon {
+                            width: 16px;
+                            height: 16px;
+                        }
+
+                        .facility-name {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+
+            .number-of-guests-container {
+                width: 15%;
+
+                .guest-icon {
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+
+            .price-container {
+                width: 15%;
+
+                .original-price {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+
+            .select-rooms-container {
+                width: 15%;
+                text-align: center;
+            }
+
+            .reverse-room-container {
+                width: 25%;
+
+                .room-for {
+                    margin: 10px 0;
+                }
+
+                .total-price {
+                    margin: 10px 0;
+                    font-size: 20px;
+                }
+
+                .reserve-button {
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 5px;
+                    border: none;
+                    background-color: #006ce4;
+                    color: white;
+                    font-size: 14px;
+                    cursor: pointer;
+                    position: relative;
+                    display: inline-block;
+                    outline: none;
+                    margin-bottom: 10px;
+
+                    .hover-text {
+                        visibility: hidden;
+                        width: auto;
+                        background-color: #dd9460;
+                        color: #000000;
+                        text-align: center;
+                        border-radius: 4px;
+                        padding: 10px;
+                        position: absolute;
+                        z-index: 1;
+                        bottom: 125%;
+                        left: 50%;
+                        margin-left: -100px;
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                    }
+                }
+
+                .reserve-button:hover {
+                    background-color: #0364d2;
+                }
+
+                .reserve-button:hover .hover-text {
+                    visibility: visible;
+                    opacity: 1;
+                }
+
+                .sub-content {
+                    margin: 0 0 0 10px;
+                }
+            }
+
+            .room-information-modal-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10;
+
+                .modal-container {
+                    display: flex;
+                    position: relative;
+                    background: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    min-height: 100%;
+                    width: 60%;
+                    text-align: center;
+                    z-index: 11;
+
+                    .close-icon {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        height: 20px;
+                        width: 20px;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .review-container {
+        .review-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .total-score-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+
+            .total-score {
+                font-size: 16px;
+                font-weight: bold;
+                color: white;
+                background-color: #003b95;
+                padding: 10px 5px;
+                border-radius: 5px 5px 5px 0;
+            }
+
+            .text-container {
+                display: flex;
+                gap: 10px;
+
+                .title-by-score {
+                    font-size: 16px;
+                }
+
+                .between-score-and-review {
+                    font-size: 16px;
+                }
+
+                .total-review {
+                    font-size: 16px;
+                }
+            }
+
+            .read-all-reviews {
+                font-size: 16px;
+                color: #006ce4;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            &:focus {
+                border: 2px solid #006ce4;
+            }
+        }
+
+        .user-like-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .review-content-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
+
+            .review-item {
+                border: 1px solid rgba($color: #000000, $alpha: 0.1);
+                border-radius: 5px;
+                padding: 10px;
+                height: auto;
+                flex: 1;
+
+                .review-user-info {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 10px;
+
+                    .user-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .user-name {
+                        font-size: 14px;
+                        font-weight: bold;
+                    }
+                }
+
+                .review-content {
+                    .review-text {
+                        font-size: 14px;
+                        margin: 10px 0;
+                        color: rgba(0, 0, 0, 0.7);
+                    }
+
+                    .more {
+                        font-size: 14px;
+                        color: #006ce4;
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+
+                    .outside-review-modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: rgba(0, 0, 0, 0.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10;
+
+                        .review-modal {
+                            display: flex;
+                            flex-direction: column;
+                            position: relative;
+                            background: white;
+                            padding: 20px;
+                            border-radius: 15px;
+                            height: auto;
+                            width: 50%;
+                            text-align: center;
+                            z-index: 11;
+
+                            .review-modal-header {
+                                display: flex;
+                                justify-content: end;
+                                align-items: center;
+                                width: 100%;
+                                height: auto;
+
+                                .close-button {
+                                    cursor: pointer;
+                                    padding: 10px;
+                                    border-radius: 5px;
+
+                                    .close-icon {
+                                        height: 20px;
+                                        width: 20px;
+                                    }
+
+                                    &:hover {
+                                        background-color: rgba(0, 0, 0, 0.1);
+                                    }
+
+                                    &:focus {
+                                        border: 2px solid #006ce4;
+                                    }
+                                }
+                            }
+
+                            .review-modal-content {
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                align-items: start;
+
+                                .review-user-info {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: start;
+                                    gap: 10px;
+                                    width: 25%;
+
+                                    .user-avatar {
+                                        width: 32px;
+                                        height: 32px;
+                                        border-radius: 50%;
+                                        object-fit: cover;
+                                    }
+
+                                    .user-name {
+                                        font-size: 14px;
+                                        font-weight: bold;
+                                    }
+                                }
+
+                                .review-content {
+                                    width: 70%;
+                                    text-align: left;
+
+                                    .review-date {
+                                        font-size: 12px;
+                                        color: gray;
+                                    }
+
+                                    .review-title {
+                                        font-size: 20px;
+                                        font-weight: bold;
+                                        margin: 0;
+                                    }
+
+                                    .review-text {
+                                        font-size: 14px;
+                                        margin: 20px 0;
+                                        color: rgba(0, 0, 0, 0.7);
+                                    }
+                                }
+
+                                .review-score {
+                                    margin: 10px;
+                                    font-size: 16px;
+                                    background-color: #003b95;
+                                    color: white;
+                                    padding: 5px 10px;
+                                    border-radius: 5px 5px 5px 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .review-list-modal-outside {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            z-index: 10;
+
+            .review-list-modal-container {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                background: white;
+                padding: 20px;
+                border-radius: 15px 0 0 15px;
+                height: 100%;
+                width: 60%;
+                text-align: center;
+                z-index: 11;
+                right: -100%; /* ẩn khỏi màn hình */
+                transition: right 0.5s ease-in-out;
+
+                &.show {
+                    right: 0; /* hiển thị modal */
+                }
+
+                .review-list-modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .review-list-title {
+                        font-size: 20px;
+                        font-weight: bold;
+                        margin: 0;
+                    }
+
+                    .close-button {
+                        cursor: pointer;
+                        padding: 10px;
+                        border-radius: 5px;
+
+                        .close-icon {
+                            height: 16px;
+                            width: 16px;
+                        }
+
+                        &:hover {
+                            background-color: rgba(0, 0, 0, 0.1);
+                        }
+
+                        &:focus {
+                            border: 2px solid #006ce4;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .main {
+        padding: 5% 16px;
+
+        .accommodation-detail-header {
+            .accommodation-detail-title {
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .btn-group {
+                display: none !important;
+            }
+        }
+
+        .accommodation-address-container {
+            align-items: start !important;
+        }
+
+        .image-review-map-container {
+            display: block;
+            height: auto;
+
+            .accommodation-image-container {
+                width: 100%;
+                padding-top: 1%;
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                grid-column-gap: 5px;
+                grid-row-gap: 5px;
+
+                .accommodation-image {
+                    .accommodation-image-item {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 2%;
+                        object-fit: fill;
+                        cursor: pointer;
+                    }
+                }
+
+                .accommodation-image:nth-child(1) {
+                    grid-area: 1 / 1 / 3 / 4;
+                }
+                .accommodation-image:nth-child(2) {
+                    grid-area: 1 / 4 / 3 / 7;
+                }
+                .accommodation-image:nth-child(3) {
+                    grid-area: 3 / 1 / 5 / 3;
+                }
+                .accommodation-image:nth-child(4) {
+                    grid-area: 3 / 3 / 5 / 5;
+                }
+                .accommodation-image:nth-child(5) {
+                    grid-area: 3 / 5 / 5 / 7;
+                    position: relative;
+                }
+                .accommodation-image:nth-child(6),
+                .accommodation-image:nth-child(7),
+                .accommodation-image:nth-child(8) {
+                    display: none;
+                }
+                .accommodation-image:nth-child(5)::after {
+                    content: "See More";
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    color: white;
+                    font-size: 16px;
+                    cursor: pointer;
+                    pointer-events: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 2%;
+                }
+            }
+
+            .accommodation-review-map-container {
+                width: 100%;
+                padding-top: 1%;
+                height: 500px;
+                display: flex;
+                flex: 1;
+                flex-direction: column-reverse;
+                margin-top: 20px;
+
+                .accommodation-google-map-container {
+                    margin: 0 -16px;
+                    display: block;
+                    padding: 0;
+
+                    .google-map-overlay {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .description-facilities-highlight-container {
+            height: auto;
+
+            .accommodation-description-facilities-container {
+                width: 100%;
+
+                .description-container {
+                    .description-title {
+                        display: block;
+                        margin: 0;
+                        font-weight: bold;
+                    }
+
+                    .description-content-container {
+                        padding: 0;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        transition: all 0.3s ease;
+                    }
+
+                    .description-content-container.collapsed {
+                        -webkit-line-clamp: 3;
+                        line-clamp: 3;
+                    }
+
+                    .see-more-button {
+                        color: gray;
+                        margin: 10px 0 0 0;
+                        font-size: 15px;
+                    }
+                }
+
+                .open-street-map {
+                    display: none;
+                }
+
+                .facilities-container {
+                    margin-top: 10px;
+
+                    .facilities-title {
+                        font-size: 20px;
+                    }
+
+                    .facilities-content {
+                        display: flex;
+                        flex-direction: row;
+                        scroll-snap-type: x mandatory;
+                        overflow-x: auto;
+                        flex-wrap: nowrap;
+                        gap: 20px;
+
+                        .facility-item {
+                            flex: 0 0 auto;
+                            flex-direction: column;
+                            text-align: center;
+                            align-items: center;
+
+                            .facility-icon {
+                                width: 30px;
+                                background-color: #f8f4e3;
+                                padding: 10px;
+                                border-radius: 50%;
+                            }
+
+                            .facility-name {
+                                width: 100px; /* hoặc auto phù hợp layout */
+                                height: auto;
+                                line-height: 1.2em; /* chiều cao 1 dòng */
+                                white-space: normal; /* cho phép xuống dòng */
+                                word-break: break-word; /* xuống dòng khi cần */
+                            }
+                        }
+                    }
+
+                    .facilities-content::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
+
+            .accommodation-highlight-container {
+                display: none;
+            }
+        }
+
+        .review-container {
+            .total-score-container {
+                .text-container {
+                    flex-direction: column !important;
+                    gap: 0 !important;
+
+                    .between-score-and-review {
+                        display: none;
+                    }
+                }
+            }
+
+            .user-like-title {
+                display: none !important;
+            }
+
+            .review-content-container {
+                display: none !important;
+            }
+
+            .review-list-modal-outside {
+                .review-list-modal-container {
+                    width: 100% !important;
+                    border-radius: 0 !important;
+                }
+            }
+        }
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .main {
+        padding: 5% 16px;
+
+        .description-title {
+            display: none;
+        }
+    }
+}

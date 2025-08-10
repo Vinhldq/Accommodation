@@ -1,0 +1,162 @@
+<p-toast></p-toast>
+<app-navbar />
+@if (isLoading) {
+<app-loader text="Loading..." [overlay]="true"></app-loader>
+}
+<main class="container">
+    <button
+        size="l"
+        tuiButton
+        type="button"
+        (click)="openDialogCreate(createForm)"
+    >
+        New
+    </button>
+
+    <table tuiTable class="table" [columns]="columns" [style.width.%]="100">
+        <thead>
+            <tr tuiThGroup></tr>
+        </thead>
+
+        <tbody tuiTbody>
+            @for(manager of managers; track manager.id) {
+            <tr tuiTr>
+                <td *tuiCell="'Account'" tuiTd>
+                    {{ manager.account }}
+                </td>
+                <td *tuiCell="'User Name'" tuiTd>
+                    {{ manager.username }}
+                </td>
+                <td *tuiCell="'Is Deleted'" tuiTd>
+                    {{ manager.is_deleted ? "True" : "False" }}
+                </td>
+                <td *tuiCell="'Created At'" tuiTd>
+                    {{ manager.created_at }}
+                </td>
+                <td *tuiCell="'Updated At'" tuiTd>
+                    {{ manager.updated_at }}
+                </td>
+                <td *tuiCell="'Show Accommodation'" tuiTd>
+                    <a
+                        class="button"
+                        target="_blank"
+                        [routerLink]="[
+                            '/admin/manager/',
+                            manager.id,
+                            'accommodations'
+                        ]"
+                        >Show</a
+                    >
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <ng-template #createForm>
+        <form
+            tuiCardLarge
+            [formGroup]="formCreateManger"
+            [style.max-width.rem]="32"
+            [style.padding.px]="5"
+            (ngSubmit)="createManager()"
+        >
+            <tui-textfield>
+                <label tuiLabel>Account</label>
+                <input
+                    formControlName="account"
+                    placeholder="Account"
+                    tuiTextfield
+                />
+                @if(formCreateManger.get('account')?.invalid &&
+                formCreateManger.get('account')?.touched) {
+                <div>
+                    @if (formCreateManger.get('account')?.hasError('required'))
+                    {
+                    <small class="text-red-500">Vui lòng nhập tài khoản</small>
+                    } @else if
+                    (formCreateManger.get('account')?.hasError('backend')) {
+                    <small class="text-red-500">{{
+                        formCreateManger.get("account")?.errors?.['backend']
+                    }}</small>
+                    }
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>User Name</label>
+                <input
+                    formControlName="username"
+                    placeholder="Username"
+                    tuiTextfield
+                />
+                @if(formCreateManger.get('username')?.invalid &&
+                formCreateManger.get('username')?.touched) {
+                <div>
+                    @if (formCreateManger.get('username')?.hasError('required'))
+                    {
+                    <small class="text-red-500"> Vui lòng nhập họ tên </small>
+                    } @else if
+                    (formCreateManger.get('username')?.hasError('backend')) {
+                    <small class="text-red-500">{{
+                        formCreateManger.get("username")?.errors?.['backend']
+                    }}</small>
+                    }
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>Password</label>
+                <input
+                    formControlName="password"
+                    placeholder="Password"
+                    tuiTextfield
+                    type="password"
+                />
+                @if(formCreateManger.get('password')?.invalid &&
+                formCreateManger.get('password')?.touched) {
+
+                <div>
+                    @if (formCreateManger.get('username')?.hasError('required'))
+                    {
+                    <small class="text-red-500">Vui lòng nhập mật khẩu</small>
+                    } @else if
+                    (formCreateManger.get('password')?.hasError('backend')) {
+                    <small class="text-red-500">{{
+                        formCreateManger.get("password")?.errors?.['backend']
+                    }}</small>
+                    }
+                </div>
+                }
+            </tui-textfield>
+
+            <tui-textfield>
+                <label tuiLabel>Confirm Password</label>
+                <input
+                    formControlName="confirm"
+                    placeholder="Confirm"
+                    tuiTextfield
+                    type="password"
+                />
+                @if(formCreateManger.get('confirm')?.invalid &&
+                formCreateManger.get('confirm')?.touched) {
+                <div>
+                    @if (formCreateManger.get('confirm')?.hasError('required'))
+                    {
+                    <small class="text-red-500">Vui lòng nhập mật khẩu</small>
+                    }
+                </div>
+                }@else if(formCreateManger.errors?.['passwordMismatch'] &&
+                formCreateManger.touched) {
+                <div>
+                    <small class="text-red-500">Mật khẩu không khớp</small>
+                </div>
+                }
+            </tui-textfield>
+
+            <button tuiButton type="submit">Submit</button>
+        </form>
+    </ng-template>
+</main>

@@ -1,0 +1,51 @@
+server:
+  port: 8080
+  mode: dev
+  driverName: mysql
+frontend:
+  url: http://localhost:4200
+logger:
+  logLevel: debug
+  fileName: "./storage/logs/server.log"
+  maxSize: 500 # megabytes
+  maxBackups: 3
+  maxAge: 28 #days
+  compress: true # disabled by default
+tracing:
+  enabled: true
+  serviceName: "doan-chuyen-nganh-api"
+  jaegerEndpoint: "http://localhost:14268/api/traces"
+  sampleRate: 1.0 # 1.0 = 100% sampling
+mysql:
+  host: localhost
+  port: 3307
+  username: root
+  password: root
+  databaseName: ecommerce_go
+  maxIdleConns: 10
+  maxOpenConns: 100
+  connMaxLifeTime: 3600
+redis:
+  host: localhost
+  port: 6379
+  password: 
+  database: 0
+  poolSize: 10
+kafka:
+  host: localhost
+  port: 9094
+email:
+  host: "smtp.gmail.com"
+  port: 587
+  user: "tuan.thanhoanganh@gmail.com"
+  password: "ytfs mrsc ybci snhb"
+jwt:
+  TOKEN_HOUR_LIFESPAN: 1
+  JWT_EXPIRATION: 1h
+  API_SECRET: "API_SECRET"
+vnpay:
+  vnp_tmn_code: "45257BE6"
+  vnp_hash_secret: "WZ6KK7ELBNIMKTRWW5TUSD6S6NVH9LVG"
+  vnp_url: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
+  vnp_api: "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"
+  vnp_return_url: "http://localhost:8080/api/v1/payment/vnpay-return"

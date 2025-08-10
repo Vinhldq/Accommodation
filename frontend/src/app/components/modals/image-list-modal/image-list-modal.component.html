@@ -1,0 +1,31 @@
+<main class="main">
+    <div class="modal">
+        <div class="header">
+            <p class="title">{{ accommodationName }}</p>
+
+            <button (click)="handleClose()" class="close-button">
+                <img src="icons/accommodation-detail-icon/close-icon.svg" alt="Close Button" class="close-button-icon">
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- Dùng Galleria của PrimeNg để hiển thị danh sách hình ảnh -->
+            <p-galleria [value]="accommodationImages" [(activeIndex)]="activeIndex" [showItemNavigators]="true"
+                [showThumbnails]="true" [numVisible]="5" [circular]="true" [responsiveOptions]="responsiveOptions"
+                [containerStyle]="{ 'max-width': '900px', 'margin': 'auto' }" [showThumbnailNavigators]="false"
+                [thumbnailsPosition]="'bottom'" [showIndicators]="false" [autoPlay]="false" [transitionInterval]="0"
+                styleClass="custom-galleria">
+                <ng-template #item let-item>
+                    <div class="image-wrapper">
+                        <img [src]="'http://localhost:8080/uploads/' + item" alt="image" class="main-image" />
+                        <p class="number-image">{{ activeIndex + 1 }}/{{ accommodationImages.length }}</p>
+                    </div>
+                </ng-template>
+
+                <ng-template #thumbnail let-item let-index="index">
+                    <img [src]="'http://localhost:8080/uploads/' + item" [alt]="'Thumbnail ' + index" class="thumbnail-image" />
+                </ng-template>
+            </p-galleria>
+        </div>
+    </div>
+</main>
